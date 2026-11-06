@@ -1,0 +1,46 @@
+#
+For each of Tasks 10.1–10.4: which tool did you use, and why can't "start, then await one by one" meet
+the requirement
+----->
+Tools & why sequential await fails: We used Task.WhenEach, Task.WhenAll, 
+Task.WhenAny, and Parallel.ForEachAsync because simple sequential awaiting 
+cannot handle live streaming,
+simultaneous loading, racing, or core limits.
+#
+=======================
+
+#
+In 10.2, when several loads fail, how do you get every exception? What does a plain await give you?
+---->
+Multiple exceptions in 10.2: Plain await gives only the first error.
+We used individual try-catch blocks to collect all errors in a shared list.
+#
+========================
+#
+In 10.3, what happens to the losing carriers if you never cancel them?
+----->
+Uncancelled carriers: They keep running in the background 
+and waste system resources.
+#
+Why does 10.4 A get faster with more CPU cores, while 10.4 B does not depend on the number of cores?
+--->
+10.4A vs 10.4B: 10.4A is CPU-bound (uses cores for math), 
+while 10.4B is I/O-bound (waiting for delays,
+doesn't need extra cores).
+#
+===============
+#
+What is the difference between parallel work (10.4 A) and concurrent asynchronous work (10.1)?
+---->
+Parallel vs Concurrent: Parallel splits heavy CPU tasks across cores,
+while concurrent async
+manages many tasks waiting for input/output.
+#
+================
+#
+Show a cancelled run (--cancel-after) and explain what happened to the orders, the stock and the
+payments.
+---->
+Cancelled run: Stops ongoing tasks, releases reserved stock,
+and cancels pending payments to keep data consistent
+#
